@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Productos en Tiempo Real</title>
+  <script src="/socket.io/socket.io.js"></script>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <h1>Productos en Tiempo Real</h1>
+  <ul id="productList">
+    <!-- Aquí se mostrarán los productos -->
+  </ul>
+
+  <h2>Agregar nuevo producto</h2>
+  <form id="productForm">
+    <input type="text" id="title" placeholder="Título del producto" required />
+    <input type="number" id="price" placeholder="Precio" required />
+    <button type="submit">Agregar Producto</button>
+  </form>
+
+  <script>
+    const socket = io();
+
+    // Escuchar lista de productos desde el servidor
+    socket.on('productList', (products) => {
+      const productList = document.getElementById('productList');
+      productList.innerHTML = '';
+      products.forEach(product => {
+        const li = document.createElement('li');
+        li.textContent = `${product.title} - Precio: ${product.price}`;
+        productList.appendChild(li);
+      });
+    });
+
+    // Agregar nuevo producto
+    const productForm = document.getElementById('productForm');
+    productForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const title = document.getElementById('title').value;
+      const price = document.getElementById('price').value;
+
+      // Enviar nuevo producto al servidor
+      socket.emit('newProduct', { title, price });
+
+      // Limpiar el formulario
+      productForm.reset();
+    });
+  </script>
+</body>
+</html>

@@ -1,7 +1,21 @@
 [
   {
     "id": "1",
+    "title": "Producto Ejemplo",
+    "price": 100,
     "status": true,
     "thumbnails": []
+  },
+  {
+    "id": "2",
+    "title": "Segundo Producto",
+    "price": 200,
+    "status": true,
+    "thumbnails": []
+  },
+  {
+    "id": "3",
+    "title": "Hola",
+    "price": "300"
   }
 ]
